@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const Store = mongoose.model('Store'); 
 
-
 exports.homePage = (req, res) => {
-  console.log(req.name);
   res.render('index');
 };
 
@@ -20,11 +18,8 @@ exports.createStore = async (req, res) => {
 exports.getStores = async (req, res) => {
   //need query DB for stores
   const stores = await Store.find();
-  console.log(stores);
-
   res.render('stores', {title: 'Stores', stores});
 }
-
 
 exports.editStore = async (req, res) => {
   //find store id
@@ -51,4 +46,4 @@ exports.updateStore = async (req, res) => {
 
 
   //redirect them the store and tell them worked
-}
+};
