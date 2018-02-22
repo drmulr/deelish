@@ -6,7 +6,7 @@ mixin storeForm(store = {})
         label(for="description") Description
         textarea(name="description")= store.description
 
-        //Image Uploat (w/ Maltr)
+        //Image Upload (w/ Maltr)
         label(for="photo") Photo
             input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg, image/jpg")
             if store.photo
