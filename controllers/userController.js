@@ -32,7 +32,6 @@ exports.validateRegister = (req, res, next) => {
         return;
     }
     next();
-
 }; 
 
 exports.register = async (req, res, next) => {
@@ -58,6 +57,7 @@ exports.updateAccount = async (req, res) => {
         { $set: updates },
         { new: true, runValidators: true, context: 'query' }
     );
+
     req.flash('success', 'Updated the profile!');
     res.redirect('/account');
 };
