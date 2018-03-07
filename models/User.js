@@ -23,12 +23,15 @@ const userSchema = new Schema({
         trim: true
     },
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    hearts: [
+        { type: mongoose.Schema.ObjectId, ref: 'Store' }
+    ]
 });
 
 userSchema.virtual('gravatar').get(function() {
     const hash = md5(this.email);
-    return `https://gratavar.com/avatar/${hash}?s=200`;
+    return `https://gravatar.com/avatar/${hash}?s=200`;
 })
 
 //Passport Local Mongoose helps with password:
