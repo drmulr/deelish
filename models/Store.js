@@ -39,6 +39,9 @@ const storeSchema = new mongoose.Schema({
         ref: 'User',
         required: 'You must supply an author'
     }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
 //defining indices:
@@ -73,7 +76,32 @@ storeSchema.statics.getTagsList = function() {
     ]);
 };
 
+storeSchema.statics.getTopStores = function() {
+    return this.aggregate([
+        //lookup stores, and populate
+        { $lookup: 
+            { from: 'reviews', localField: '_id', foreignField: 'store', as: 'reviews' } 
+        },
+        //match where the 2nd position in reviews exists
+        { $match: { 'reviews.1': { $exists: true } }},
+        //sort by new field, highest reviews first
+        { $addFields: {
+            averageRating: { $avg: '$reviews.rating' }
+        }},
+        { $sort: { averageRating: -1 }},
+        //limit to 10
+        { $limit: 10 }
+    ])
+};
 
 
+//this is feature in mongoose only
+//looking for reviews where _id === store;
+storeSchema.virtual('reviews', {
+    ref: 'Review',
+    localField: '_id', //store field
+    foreignField: 'store' //review field
+});
+  
 
 module.exports = mongoose.model('Store', storeSchema);
