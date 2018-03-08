@@ -9,6 +9,7 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', catchErrors(storeController.getStores)); //also wrapping this due to async
 router.get('/stores', storeController.getStores);
+router.get('/stores/page/:page', storeController.getStores);
 router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.post('/add', storeController.upload, catchErrors(storeController.resize), catchErrors(storeController.createStore)); //wrap in helper function -- to catch errors. 
 router.post('/add/:id', storeController.upload, catchErrors(storeController.resize), catchErrors(storeController.updateStore)); //wrap in helper function -- to catch errors. 

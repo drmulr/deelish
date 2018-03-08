@@ -104,4 +104,13 @@ storeSchema.virtual('reviews', {
 });
   
 
+function autopopulate(next) {
+    this.populate('reviews');
+    next();
+};
+
+storeSchema.pre('find', autopopulate);
+storeSchema.pre('findOne', autopopulate);
+
+
 module.exports = mongoose.model('Store', storeSchema);
